@@ -6,6 +6,7 @@ import (
 	"log"
 	"path/filepath"
 	"strconv"
+	"time"
 
 	"github.com/eclipse/paho.mqtt.golang"
 	"github.com/hikhvar/mqtt2prometheus/pkg/config"
@@ -90,6 +91,7 @@ func (i *Ingest) store(deviceID string, rawMetrics MQTTPayload) error {
 			Description: cfg.PrometheusDescription(),
 			Value:       metricValue,
 			ValueType:   cfg.PrometheusValueType(),
+			IngestTime:  time.Now(),
 		})
 	}
 	i.collector.Observe(deviceID, mc)
